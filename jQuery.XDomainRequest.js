@@ -10,7 +10,11 @@ if (!jQuery.support.cors && jQuery.ajaxTransport && window.XDomainRequest) {
   var xmlRegEx = /\/xml/i;
   
   // ajaxTransport exists in jQuery 1.5+
-  jQuery.ajaxTransport('text html xml json', function(options, userOptions, jqXHR){
+  jQuery.ajaxTransport(function(options, userOptions, jqXHR){
+    // Default to json.
+    if (!userOptions.dataType) {
+      userOptions.dataType = 'json';
+    }
     // XDomainRequests must be: asynchronous, GET or POST methods, HTTP or HTTPS protocol, and same scheme as calling page
     if (options.crossDomain && options.async && getOrPostRegEx.test(options.type) && httpRegEx.test(options.url) && sameSchemeRegEx.test(options.url)) {
       var xdr = null;
